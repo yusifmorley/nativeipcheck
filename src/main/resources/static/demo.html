@@ -1,0 +1,73 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+    <script src="Element-ui/vue.global.js"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="Element-ui/index.css">
+    <!-- import JavaScript -->
+    <script src="Element-ui/index.full.js"></script>
+    <style>
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text {
+  font-size: 14px;
+}
+
+.item {
+  margin-bottom: 18px;
+}
+
+.box-card {
+  width: 480px;
+}
+</style>
+
+    <title>Element Plus demo</title>
+</head>
+<body>
+<div id="app">
+    <el-button>{{ message }}</el-button>
+    <el-row class="mb-4">
+        <el-button>Default</el-button>
+        <el-button type="primary">Primary</el-button>
+        <el-button type="success">Success</el-button>
+        <el-button type="info">Info</el-button>
+        <el-button type="warning">Warning</el-button>
+        <el-button type="danger">Danger</el-button>
+        <el-button>中文</el-button>
+    </el-row>
+
+
+    <el-card class="box-card">
+        <template #header>
+            <div class="card-header">
+                <span>Card name</span>
+                <el-button class="button" text>Operation button</el-button>
+            </div>
+        </template>
+        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+    </el-card>
+
+</div>
+<script>
+      const App = {
+        data() {
+          return {
+            message: "Hello Element Plus",
+          };
+        },
+      };
+      const app = Vue.createApp(App);
+      app.use(ElementPlus);
+      app.mount("#app");
+    </script>
+
+
+</body>
+</html>
