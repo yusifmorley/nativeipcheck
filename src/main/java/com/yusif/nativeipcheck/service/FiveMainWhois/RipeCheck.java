@@ -41,19 +41,13 @@ Request request=builder
     }
 }
 
-<<<<<<< HEAD
+
 //    public  void write(byte [] bb) throws IOException {
 //        FileOutputStream fileOutputStream=new FileOutputStream(new File("src/main/resources/hello"));
 //        fileOutputStream.write(bb);
 //        fileOutputStream.close();
 //    }
-=======
-    public  void write(byte [] bb) throws IOException {
-        FileOutputStream fileOutputStream=new FileOutputStream(new File("src/main/resources/hello"));
-        fileOutputStream.write(bb);
-        fileOutputStream.close();
-    }
->>>>>>> c1d9b9fc1f892b52a9c6089254fd9946749b50e8
+
 
     public String  getjson(String s) throws FileNotFoundException { //获取 返回体的json符串形式
 //        Scanner scanner=new Scanner(new File("src/main/resources/hello.txt"));
