@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 @Service
 public class IPInfoCheck {
-    public  String checkip(String ip){
+    public  IPResponse checkip(String ip){
 
         // 5 Day Cache
         IPinfo ipInfo = new IPinfo.Builder()
@@ -18,29 +18,28 @@ public class IPInfoCheck {
                 .setCache(new SimpleCache(Duration.ofDays(5)))
                 .build();
         try {
-            IPResponse response = ipInfo.lookupIP(ip);
-            // Print out the hostname
-            System.out.println(response.getPrivacy());
-            System.out.println(response.getAsn());
+
+            return ipInfo.lookupIP(ip);
+
         } catch (RateLimitedException ex) {
             // Handle rate limits here.
         }
-        return "";
+        return null;
     }
 
-    public  String checkasn(String asn){
+    public   ASNResponse checkasn(String asn){
         // 5 Day Cache
         IPinfo ipInfo = new IPinfo.Builder()
                 .setToken("7093f7182c3de5")
                 .setCache(new SimpleCache(Duration.ofDays(5)))
                 .build();
         try {
-            ASNResponse response = ipInfo.lookupASN(asn);
-            // Print out the hostname
-            System.out.println(response.getCountry());
+
+           return ipInfo.lookupASN(asn);
+
         } catch (RateLimitedException ex) {
             // Handle rate limits here.
         }
-        return "";
+        return null;
     }
 }

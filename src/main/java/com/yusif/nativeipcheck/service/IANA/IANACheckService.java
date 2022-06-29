@@ -1,7 +1,7 @@
 package com.yusif.nativeipcheck.service.IANA;
 
 import com.yusif.nativeipcheck.constant.AllServicesCons;
-import com.yusif.nativeipcheck.service.FiveMainWhois.RipeCheck;
+
 import com.yusif.nativeipcheck.service.WhoisQuery.WhoisInternic;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,64 +22,28 @@ public class IANACheckService{
     @Autowired
     AllServicesCons allServicesCons;
     @Autowired
-    RipeCheck ripeCheck;
-    @Autowired
     WhoisInternic whoisInternic;
-
-
      public  String IANAapi ="https://www.iana.org/whois?q="; //IANA api
-
     public String ipquery(String ip) {
         Request request=builder
                 .url(IANAapi+ip)    //构建  url
                 .build();
-
         try(Response response=okHttpClient.newCall(request).execute()) {
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
             assert response.body() != null;
             String orgin=parsehtml(response.body().string());  //获取返回体
-
-            String hostname = null;
             if(orgin.equals("0")){
                 return  null;
             }
-
-            if(orgin.equals("RIPE NCC")){//欧洲
-                hostname = "whois.ripe.net";
-            }
-
-            if(orgin.equals("LACNIC")){ //拉丁美洲和加勒比群岛
-                 hostname="whois.lacnic.net";
-            }
-
-            if(orgin.equals("ARIN")){ //北美
-                 hostname="whois.arin.net";
-            }
-
-            if(orgin.equals("APNIC")){//亚太
-                 hostname="whois.apnic.net";
-            }
-
-            if(orgin.equals("AFRINIC")){//非洲
-                 hostname="whois.afrinic.net";
-            }
-
-            if (hostname!=null){
-
-              return  whoisInternic.getwhois(ip,hostname);
-
-            }
-
+              return  whoisInternic.getwhois(ip,orgin);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
 
     public  String parsehtml(String html){   //   抽取 所在 organisation （组织）
-
         Document document= Jsoup.parse(html);
         Element element=document.body().getElementsByTag("pre").first();
         System.out.println();
@@ -89,7 +53,7 @@ public class IANACheckService{
 
            if (s.startsWith("whois"))   //查找以whois 开头
            {
-               return s.substring(s.indexOf(":")+2);
+             return s.substring(s.lastIndexOf("whois"));
            }
       }
       return "0";

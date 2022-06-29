@@ -11,8 +11,7 @@ public String  getwhois(String ip,String hostname){
     WhoisClient whois=new WhoisClient();
     try {
         whois.connect(hostname);
-        System.out.println();
-       String result= whois.query(ip);
+        String result= whois.query(ip);
         whois.disconnect();
       return  result;
     } catch (IOException e) {
