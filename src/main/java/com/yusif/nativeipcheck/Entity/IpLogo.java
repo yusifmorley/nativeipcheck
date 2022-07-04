@@ -11,10 +11,11 @@ public class IpLogo {
     private  String ip;
     private  String ASN;
     private  String companytype;
-    private  LinkedList<Map<String,Boolean>> privacy;
+    private  Map<String,Boolean> privacy;
     private  String ASNcontry;
     private  String IpContry;
     private  String AbuseContry;
     private  String ASNtype;
+    private  String curtime;
 
 }
