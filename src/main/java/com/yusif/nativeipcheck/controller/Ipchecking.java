@@ -11,10 +11,8 @@ import io.ipinfo.api.model.ASNResponse;
 import io.ipinfo.api.model.IPResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +29,13 @@ public class Ipchecking {
     IANACheckService ianaCheckService;
     @Autowired
     IPInfoCheck ipInfoCheck;
-    @RequestMapping("/nativeipinfo")
-        public IpLogo getIRealIPAddr(HttpServletRequest request) {
-        GetIp getIp=new GetIp();
-        String ip=getIp.getIRealIPAddr(request);//ip地址
+    @RequestMapping("/nativeipinfo/{ip}")
+        public IpLogo getIRealIPAddr(@PathVariable String ip) {
+//        GetIp getIp=new GetIp();
+//        String ip=getIp.getIRealIPAddr(request);//ip地址
 
         IPResponse ipResponse=ipInfoCheck.checkip(ip);  //ip信息
         ASNResponse asnResponse=ipInfoCheck.checkasn(ipResponse.getAsn().toString()); //Asn信息
-
         IpLogo ipLogo=new IpLogo();
         ipLogo.setIp(ip);
         ipLogo.setASN(asnResponse.getAsn());
@@ -51,19 +48,10 @@ public class Ipchecking {
         ipLogo.setCurtime(new MyDate().getNowTime());
         return ipLogo;
     }
-    @RequestMapping("/myipwhois")
-    public  String getMyWhois(HttpServletRequest request){
-        GetIp getIp=new GetIp();
-        String ip=getIp.getIRealIPAddr(request);
+    @RequestMapping("/myipwhois/{ip}")
+    public  String getMyWhois(@PathVariable String ip){
+//        GetIp getIp=new GetIp();
+//        String ip=getIp.getIRealIPAddr(request);
         return ianaCheckService.ipquery(ip);
     }
-
-
-
-
-
-
-
-
-
 }
