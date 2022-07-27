@@ -19,11 +19,12 @@ public class IANACheckService{
     OkHttpClient okHttpClient;
     @Autowired
     Request.Builder builder;
+
     @Autowired
     AllServicesCons allServicesCons;
     @Autowired
     WhoisInternic whoisInternic;
-     public  String IANAapi ="https://www.iana.org/whois?q="; //IANA api
+    private final String IANAapi ="https://www.iana.org/whois?q="; //IANA api
     public String ipquery(String ip) {
         Request request=builder
                 .url(IANAapi+ip)    //构建  url

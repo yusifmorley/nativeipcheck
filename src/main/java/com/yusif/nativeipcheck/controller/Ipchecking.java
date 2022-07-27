@@ -37,6 +37,7 @@ public class Ipchecking {
         IPResponse ipResponse=ipInfoCheck.checkip(ip);  //ip信息
         ASNResponse asnResponse=ipInfoCheck.checkasn(ipResponse.getAsn().toString()); //Asn信息
         IpLogo ipLogo=new IpLogo();
+
         ipLogo.setIp(ip);
         ipLogo.setASN(asnResponse.getAsn());
         ipLogo.setAbuseContry(ipResponse.getAbuse().getCountry());
@@ -46,6 +47,7 @@ public class Ipchecking {
         ipLogo.setASNtype(asnResponse.getType());
         ipLogo.setPrivacy(new GetPrivacy().parsePrivacy(ipResponse.getPrivacy()));
         ipLogo.setCurtime(new MyDate().getNowTime());
+
         return ipLogo;
     }
     @RequestMapping("/myipwhois/{ip}")
