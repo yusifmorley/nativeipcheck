@@ -1,6 +1,7 @@
 server:
   port: 8080
   address: 127.0.0.1
+
 spring:
   datasource:
     username: root
@@ -8,5 +9,8 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/user?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+logging:
+  file:
+    path: src/main/resources/log
 
 

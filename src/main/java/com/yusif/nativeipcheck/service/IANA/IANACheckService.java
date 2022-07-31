@@ -1,11 +1,9 @@
 package com.yusif.nativeipcheck.service.IANA;
 
-import com.yusif.nativeipcheck.constant.AllServicesCons;
-
-import com.yusif.nativeipcheck.service.WhoisQuery.WhoisInternic;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.net.whois.WhoisClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,14 +18,10 @@ public class IANACheckService{
     @Autowired
     Request.Builder builder;
 
-    @Autowired
-    AllServicesCons allServicesCons;
-    @Autowired
-    WhoisInternic whoisInternic;
     private final String IANAapi ="https://www.iana.org/whois?q="; //IANA api
     public String ipquery(String ip) {
         Request request=builder
-                .url(IANAapi+ip)    //构建  url
+                .url(IANAapi+ip)    //构建  请求 url
                 .build();
         try(Response response=okHttpClient.newCall(request).execute()) {
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
@@ -36,15 +30,17 @@ public class IANACheckService{
             if(orgin.equals("0")){
                 return  null;
             }
-              return  whoisInternic.getwhois(ip,orgin);
+
+              return getwhois(ip,orgin);
 
         } catch (IOException e) {
+
             throw new RuntimeException(e);
         }
     }
 
 
-    public  String parsehtml(String html){   //   抽取 所在 organisation （组织）
+    private   String parsehtml(String html){   //   抽取 所在 organisation （组织）
         Document document= Jsoup.parse(html);
         Element element=document.body().getElementsByTag("pre").first();
         System.out.println();
@@ -58,5 +54,19 @@ public class IANACheckService{
            }
       }
       return "0";
+    }
+
+    private   String  getwhois(String ip,String hostname){
+        System.out.println(hostname);
+        WhoisClient whois=new WhoisClient();
+        try {
+            whois.connect(hostname);
+            String result= whois.query(ip);
+            whois.disconnect();
+            return  result;
+        } catch (IOException e) {
+            System.err.println("Error I/O exception: " + e.getMessage());
+        }
+        return null;
     }
 }
